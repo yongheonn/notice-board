@@ -1,3 +1,3 @@
 ## Development Setup
 
-###[BACK-END Setup](./src/main/resources/config/db-config.yml)
+[###BACK-END Setup](./back-end/README.md## Development Setup)

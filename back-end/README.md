@@ -2,4 +2,4 @@
 
 ### Prerequisites
 
--edit url, user, password at [db-config.yml](/src/main/resources/config/db-config.yml)
+-edit url, user, password at [db-config.yml](./src/main/resources/config/db-config.yml)

@@ -1,6 +1,6 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: url
-    user: id
-    password: password
+    url: url #fix
+    user: id #fix
+    password: password #fix

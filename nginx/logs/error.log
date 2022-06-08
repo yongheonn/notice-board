@@ -329,3 +329,21 @@ otice board\front-end\server.conf" failed (123: The filename, directory name, or
 2022/06/08 15:54:50 [notice] 14232#10848: signal process started
 2022/06/08 15:55:09 [notice] 16064#7376: signal process started
 2022/06/08 15:55:09 [error] 16064#7376: CreateFile() "C:\nginx-1.22.0/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2022/06/08 16:03:31 [emerg] 3128#14768: CreateDirectory() "D:\Documents\web\notice board\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2022/06/08 16:07:59 [emerg] 3244#14792: CreateDirectory() "D:\Documents\web\notice board\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2022/06/08 16:08:13 [emerg] 7372#10164: CreateDirectory() "D:\Documents\web\notice board\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2022/06/08 16:10:11 [emerg] 15260#808: CreateDirectory() "D:\Documents\web\notice board\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2022/06/08 16:11:26 [error] 4792#1180: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /test?user_id=113&user_pw=51352&user_pw_check=12&user_name=123&user_email=7%401212.com&certification=1235 HTTP/1.1", upstream: "http://[::1]:8080/test?user_id=113&user_pw=51352&user_pw_check=12&user_name=123&user_email=7%401212.com&certification=1235", host: "localhost", referrer: "http://localhost/register/"
+2022/06/08 16:11:28 [error] 4792#1180: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /test?user_id=113&user_pw=51352&user_pw_check=12&user_name=123&user_email=7%401212.com&certification=1235 HTTP/1.1", upstream: "http://127.0.0.1:8080/test?user_id=113&user_pw=51352&user_pw_check=12&user_name=123&user_email=7%401212.com&certification=1235", host: "localhost", referrer: "http://localhost/register/"
+2022/06/08 16:11:36 [error] 4792#1180: *1 no live upstreams while connecting to upstream, client: 127.0.0.1, server: localhost, request: "GET /test?user_id=113&user_pw=51352&user_pw_check=12&user_name=123&user_email=7%401212.com&certification=1235 HTTP/1.1", upstream: "http://localhost/test?user_id=113&user_pw=51352&user_pw_check=12&user_name=123&user_email=7%401212.com&certification=1235", host: "localhost", referrer: "http://localhost/register/"
+2022/06/08 16:13:38 [notice] 13692#14868: signal process started
+2022/06/08 16:13:42 [notice] 3908#2596: signal process started
+2022/06/08 16:13:42 [notice] 16972#14600: signal process started
+2022/06/08 16:13:46 [notice] 13852#16020: signal process started
+2022/06/08 16:13:46 [error] 13852#16020: CreateFile() "D:\Documents\web\notice board\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2022/06/08 16:13:49 [notice] 16588#7832: signal process started
+2022/06/08 16:13:49 [error] 16588#7832: CreateFile() "D:\Documents\web\notice board\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2022/06/08 16:13:56 [emerg] 1968#6436: CreateDirectory() "D:\Documents\web\notice board\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2022/06/08 16:14:01 [emerg] 14556#5248: CreateDirectory() "D:\Documents\web\notice board\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2022/06/08 16:14:03 [notice] 13696#7392: signal process started
+2022/06/08 16:14:03 [error] 13696#7392: CreateFile() "D:\Documents\web\notice board\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)

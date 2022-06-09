@@ -7,9 +7,10 @@
     <title>Document</title>
   </head>
   <body>
-    <form name="login" action="./check" method="post">
+    <form name="login">
       아이디<br />
       <input type="text" name="user_id" placeholder="아이디 입력" />
+      <button type="button" id="user_id_check">중복확인</button>
       <br />
       비밀번호<br />
       <input type="password" name="user_pw" placeholder="비밀번호 입력" /><br />
@@ -32,10 +33,15 @@
         placeholder="email@gmail.com"
       /><br /><br />
 
-      <input type="button" value="인증 코드 받기" /><br />
+      <input
+        type="button"
+        value="인증 코드 받기"
+        onclick="alert('인증 코드');"
+      /><br />
       <input type="text" name="certification" placeholder="인증 코드 입력" />
       <input type="button" value="확인" /><br /><br />
       <input type="submit" value="전송" /><br /><br />
     </form>
+    <script type="text/javascript" src="index.js"></script>
   </body>
 </html>

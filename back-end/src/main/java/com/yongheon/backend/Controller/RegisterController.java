@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yongheon.backend.DTO.RegisterDTO;
 import com.yongheon.backend.Service.RegisterService;
 
+import lombok.Data;
+
 
 @RestController
 @RequestMapping(value = "/forms/register/*")
@@ -28,16 +30,12 @@ public class RegisterController {
 	}
 
 	@PostMapping(value = "/id_check")
-	public Boolean checkIDExist(@RequestBody Map<String, String> id) {
-		System.out.println(id);
+	public boolean checkIDExist(@RequestBody Map<String, String> id) {
 		try {
-			if(service.isExistId(id.get("id")))
-					return true;
+			return service.isExistId(id.get("id"));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return true;
 		}
-
-		return false;
 	}
-	
 }

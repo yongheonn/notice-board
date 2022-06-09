@@ -32,11 +32,11 @@ public class RegisterController {
 		System.out.println(id);
 		try {
 			if(service.isExistId(id.get("id")))
-				return true;
+					return true;
 		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			return true;
 		}
+
 		return false;
 	}
 	

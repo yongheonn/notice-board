@@ -9,7 +9,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Mapper
 public class RegisterDAOImpl implements RegisterDAO {
 
     @Inject

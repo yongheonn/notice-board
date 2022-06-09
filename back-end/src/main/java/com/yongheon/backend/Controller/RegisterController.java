@@ -39,10 +39,5 @@ public class RegisterController {
 		}
 		return false;
 	}
-
-	private enum IdCheckType {
-		LENGTH, DUPLICATE, OK
-	}
-
 	
 }

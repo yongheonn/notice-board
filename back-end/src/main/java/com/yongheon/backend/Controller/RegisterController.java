@@ -19,7 +19,7 @@ import com.yongheon.backend.Service.RegisterService;
 public class RegisterController {
 
 	@Inject
-	 private RegisterService service;
+	private RegisterService service;
 	 
 	@PostMapping(value = "")
 	public String list(RegisterDTO registerDTO) {
@@ -34,7 +34,7 @@ public class RegisterController {
 			if(service.isExistId(id.get("id")))
 				return true;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
 		}
 		return false;

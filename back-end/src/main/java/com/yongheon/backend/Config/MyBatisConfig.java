@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @MapperScan(value = "com.yongheon.backend", sqlSessionFactoryRef = "SqlSessionFactory")
 public class MyBatisConfig {
 
-    @Value("${spring.datasource.mapper-locations}")
+    @Value("${mybatis.mapper-locations}")
     String mPath;
 
     @Bean(name = "dataSource")

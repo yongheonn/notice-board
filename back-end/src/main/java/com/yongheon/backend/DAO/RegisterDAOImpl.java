@@ -16,14 +16,12 @@ public class RegisterDAOImpl implements RegisterDAO {
 	
 	private String namespace = "com.user.mappers";
 
-	@Override
 	public Boolean isExistId(String id) {
         try {
 		return !sqlSession.selectOne(namespace + ".isExistId", id).equals("");
         }
         catch(Exception e) {
             e.printStackTrace();
-            System.out.println("select problem");
             return false;
         }
 	}

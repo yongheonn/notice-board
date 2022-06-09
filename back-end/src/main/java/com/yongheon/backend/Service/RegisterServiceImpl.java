@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.yongheon.backend.DAO.RegisterDAO;
 
-
 public class RegisterServiceImpl implements RegisterService {
     @Inject
     private RegisterDAO dao;

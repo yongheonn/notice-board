@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegisterDAO {
     public String isExistId(String id) throws Exception; 
+    public String isExistNick(String nick) throws Exception;
+    public String isExistEmail(String email) throws Exception;
 }

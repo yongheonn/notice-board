@@ -5,9 +5,15 @@
 <mapper namespace="com.yongheon.backend.DAO.RegisterDAO">
 	
 	<select id="isExistId" resultType="String">
-		select
-        ifnull(id, "")
-         id from user where id = #{id}
+		select id from user where id = #{id}
+	</select>
+
+	<select id="isExistNick" resultType="String">
+		select nick from user where nick = #{nick}
+	</select>
+
+	<select id="isExistEmail" resultType="String">
+		select email from user where email = #{email}
 	</select>
 	
 	<insert id="regi">

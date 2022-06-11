@@ -38,4 +38,24 @@ public class RegisterController {
 			return true;
 		}
 	}
+
+	@PostMapping(value = "/nick_check")
+	public boolean checkNickExist(@RequestBody Map <String, String> nick) {
+		try {
+			return service.isExistNick(nick.get("nick"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return true;
+		}
+	}
+
+	@PostMapping(value = "/email_check")
+	public boolean checkEmailExist(@RequestBody Map <String, String> email) {
+		try {
+			return service.isExistEmail(email.get("email"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return true;
+		}
+	}
 }

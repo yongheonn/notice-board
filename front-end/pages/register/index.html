@@ -9,41 +9,56 @@
   </head>
   <body>
     <form name="login">
-      아이디<br />
-      <input type="text" id="user_id" name="user_id" placeholder="아이디 입력" />
-      <br />
-      <span class="error_next_box" id="idMsg" aria-live="assertive"></span>
-      <br />
-      비밀번호<br />
-      <input type="password" name="user_pw" placeholder="비밀번호 입력" /><br />
-      비밀번호 확인<br />
+      <h3>
+        <label for="id">아이디</label>
+      </h3>
+      <input type="text" id="id" name="id" maxlength="20" placeholder="아이디 입력" />
+
+      <span class="error_next_box" id="idMsg" style="display: none;" aria-live="assertive"></span>
+      
+      <h3>
+        <label for="pw">비밀번호</label>
+      </h3>
+      <input type="password" id="pw" name="pw" maxlength="20" placeholder="비밀번호 입력" />
+      <span class="error_next_box" id="pwMsg" style="display: none;" aria-live="assertive"></span>
+      <h3>
+        <label for="pwCheck">비밀번호 재입력</label>
+      </h3>
       <input
         type="password"
-        name="user_pw_check"
+        id="pwCheck"
+        name="pwCheck" maxlength="20"
         placeholder="비밀번호 재입력"
       />
-      <input type="button" value="확인" />
-      <br /><br />
-      닉네임<br />
-      <input type="text" name="user_name" placeholder="닉네임 입력" /> <br />
+      <span class="error_next_box" id="pwCheckMsg" style="display: none;" aria-live="assertive"></span>
+      <h3>
+        <label for="nick">닉네임</label>
+      </h3>
+      <input type="text" id="nick" name="nick" maxlength="20" placeholder="닉네임 입력" /> <br />
+      <span class="error_next_box" id="nickMsg" style="display: none;" aria-live="assertive"></span>
 
-      <br /><br />
-
-      이메일<br /><input
+      <h3>
+        <label for="email">이메일</label>
+      </h3>
+      <input
         type="email"
-        name="user_email"
-        placeholder="email@gmail.com"
-      /><br /><br />
-
+        id="email"
+        name="email"
+        maxlength="50"
+        placeholder="ex: abc@def.com"
+      />
       <input
         type="button"
-        value="인증 코드 받기"
-        onclick="alert('인증 코드');"
+        id="request_cert"
+        value="인증번호 받기"
       /><br />
-      <input type="text" name="certification" placeholder="인증 코드 입력" />
-      <input type="button" value="확인" /><br /><br />
+      <span class="error_next_box" id="emailMsg" style="display: none;" aria-live="assertive"></span>
+      <input type="text" id="cert" name="cert" maxlength="6" placeholder="인증 코드 입력" />
+      <input type="button" id="send_cert" value="확인" /><br /><br />
+      <span class="timer_next_box" id="certTimer" style="display: none;" aria-live="assertive"></span>
       <input type="submit" value="전송" /><br /><br />
+
     </form>
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="index.js?r=20220610&v=24"></script>
   </body>
 </html>

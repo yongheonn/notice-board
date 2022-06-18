@@ -202,7 +202,7 @@ function refreshTimer() {
   certTimer.style.display = 'block';
   time -= 1;
   if (time === 0) {
-    alert('인증 시간이 만료되었습니다.');
+    alert('인증 시간이 만료되었습니다. 재발급 받으세요');
     clearInterval(timerId);
   }
 }

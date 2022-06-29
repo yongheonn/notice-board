@@ -4,39 +4,36 @@ class IdObserver {
   inputEl: HTMLInputElement;
   msgEl: HTMLElement | null;
   url: string;
-  isValid: boolean;
 
   constructor() {
     this.inputEl = <HTMLInputElement>document.getElementById('id');
     this.msgEl = document.getElementById('idMsg');
     this.url = localUrl + '/register/id_check';
-    this.isValid = false;
     document.getElementById('id')?.addEventListener('change', this.checkValid.bind(this));
   }
 
-  checkRegExp(): boolean {
-    const regExp: RegExp = /^[a-z|0-9|_-]{4,19}$/;
-    if (regExp.test(this.inputEl.value)) return false;
-    if (this.msgEl == null) return false;
-    this.msgEl.innerText = '5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.';
+  setMsg(msg: string): void {
+    if (this.msgEl == null) return;
+    this.msgEl.innerText = msg;
     this.msgEl.style.display = 'block';
+  }
 
+  checkEmpty(): boolean {
+    if (this.inputEl?.value != '') return false;
+    this.setMsg('필수 정보입니다.');
     return true;
   }
 
-  setValid(): void {
-    this.isValid = true;
-    if (this.msgEl == null) return;
-    this.msgEl.innerText = '사용 가능한 아이디입니다.';
+  checkRegExp(): boolean {
+    const regExp: RegExp = /^[a-z|0-9|_-]{5,20}$/;
+    const isMatch = regExp.test(this.inputEl.value);
+    if (isMatch) return true;
+    this.setMsg('5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.');
+
+    return false;
   }
 
-  setInValid(): void {
-    this.isValid = false;
-    if (this.msgEl == null) return;
-    this.msgEl.innerText = '이미 사용중이거나 탈퇴한 아이디입니다.';
-  }
-
-  checkDuplicate(): void {
+  async checkDuplicate(): Promise<boolean> {
     const data: string = this.inputEl.value;
     const option: AjaxOption = {
       method: 'POST',
@@ -46,54 +43,56 @@ class IdObserver {
         'Content-Type': 'application/json',
       },
     };
-    fetch(this.url, option)
-      .then(response => response.json())
-      .then(isInValid => {
-        isInValid ? this.setInValid() : this.setValid();
-      })
-      .then(() => {
-        if (this.msgEl instanceof HTMLElement) this.msgEl.style.display = 'block';
-      });
+    const response = await fetch(this.url, option);
+    const isDuplicate = await response.json();
+    isDuplicate ? this.setMsg('이미 사용중이거나 탈퇴한 아이디입니다.') : this.setMsg('사용 가능한 아이디입니다.');
+    return !isDuplicate;
   }
 
-  checkValid() {
-    if (this.checkRegExp()) return;
-    this.checkDuplicate();
+  async checkValid(): Promise<boolean> {
+    if (this.checkEmpty()) return false;
+    if (!this.checkRegExp()) return false;
+    return await this.checkDuplicate();
   }
 }
 
 class PwObserver {
   inputEl: HTMLInputElement;
   msgEl: HTMLElement | null;
-  isValid: boolean;
 
   constructor() {
     this.inputEl = <HTMLInputElement>document.getElementById('pw');
     this.msgEl = document.getElementById('pwMsg');
-    this.isValid = false;
 
     document.getElementById('pw')?.addEventListener('change', this.checkValid.bind(this));
   }
 
-  setValid() {
+  setMsg(msg: string): void {
     if (this.msgEl == null) return;
-    this.msgEl.innerText = '사용 가능한 비밀번호입니다.';
-    this.isValid = true;
-  }
-
-  setInValid() {
-    if (this.msgEl == null) return;
-    this.msgEl.innerText = '8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.';
-    this.isValid = false;
-  }
-
-  checkValid() {
-    const pw: string = this.inputEl.value;
-    const regExp: RegExp = /^[a-z|A-Z|0-9|{}[\]/?.,;:|)*~`!^\-_+<>@#$%&\\=('"]{7,15}$/;
-
-    if (this.msgEl == null) return;
-    regExp.test(pw) ? this.setValid() : this.setInValid();
+    this.msgEl.innerText = msg;
     this.msgEl.style.display = 'block';
+  }
+
+  checkEmpty(): boolean {
+    if (this.inputEl?.value != '') return false;
+    this.setMsg('필수 정보입니다.');
+    return true;
+  }
+
+  checkRegExp(): boolean {
+    const pw: string = this.inputEl.value;
+    const regExp: RegExp = /^[a-z|A-Z|0-9|{}[\]/?.,;:|)*~`!^\-_+<>@#$%&\\=('"]{8,16}$/;
+    const isMatch = regExp.test(pw);
+
+    isMatch
+      ? this.setMsg('사용 가능한 비밀번호입니다.')
+      : this.setMsg('8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.');
+    return isMatch;
+  }
+
+  checkValid(): boolean {
+    if (this.checkEmpty()) return false;
+    return this.checkRegExp();
   }
 }
 
@@ -101,36 +100,39 @@ class PwReObserver {
   targetEl: HTMLInputElement; //pw input
   inputEl: HTMLInputElement; //pwRe input
   msgEl: HTMLElement | null;
-  isValid: boolean;
 
   constructor() {
     this.targetEl = <HTMLInputElement>document.getElementById('pw');
     this.inputEl = <HTMLInputElement>document.getElementById('pwRe');
     this.msgEl = document.getElementById('pwReMsg');
-    this.isValid = false;
 
     document.getElementById('pwRe')?.addEventListener('change', this.checkValid.bind(this));
   }
 
-  setValid() {
+  setMsg(msg: string): void {
     if (this.msgEl == null) return;
-    this.msgEl.innerText = '비밀번호가 일치합니다.';
-    this.isValid = true;
+    this.msgEl.innerText = msg;
+    this.msgEl.style.display = 'block';
   }
 
-  setInValid() {
-    if (this.msgEl == null) return;
-    this.msgEl.innerText = '비밀번호가 일치하지 않습니다.';
-    this.isValid = false;
+  checkEmpty(): boolean {
+    if (this.inputEl?.value != '') return false;
+    this.setMsg('필수 정보입니다.');
+    return true;
   }
 
-  checkValid() {
+  checkMatch(): boolean {
     const pw: string = this.targetEl.value;
     const pwRe: string = this.inputEl.value;
+    const isMatch = pw === pwRe;
 
-    if (this.msgEl == null) return;
-    pw === pwRe ? this.setValid() : this.setInValid();
-    this.msgEl.style.display = 'block';
+    isMatch ? this.setMsg('비밀번호가 일치합니다.') : this.setMsg('비밀번호가 일치하지 않습니다.');
+    return isMatch;
+  }
+
+  checkValid(): boolean {
+    if (this.checkEmpty()) return false;
+    return this.checkMatch();
   }
 }
 
@@ -138,40 +140,37 @@ class NickObserver {
   inputEl: HTMLInputElement; //pwRe input
   msgEl: HTMLElement | null;
   url: string;
-  isValid: boolean;
 
   constructor() {
     this.inputEl = <HTMLInputElement>document.getElementById('nick');
     this.msgEl = document.getElementById('nickMsg');
     this.url = localUrl + '/register/nick_check';
-    this.isValid = false;
     document.getElementById('nick')?.addEventListener('change', this.checkValid.bind(this));
   }
 
-  checkRegExp() {
-    const nick: string = this.inputEl.value;
-    const regExp: RegExp = /^[a-z|A-Z|0-9|_\-|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{4,19}$/;
-
-    if (this.msgEl == null) return false;
-    if (regExp.test(nick)) return false;
-    this.msgEl.innerText = '5~20자의 영문 대소문자, 숫자, 한글과 특수기호(_),(-)만 사용 가능합니다.';
+  setMsg(msg: string): void {
+    if (this.msgEl == null) return;
+    this.msgEl.innerText = msg;
     this.msgEl.style.display = 'block';
+  }
+
+  checkEmpty(): boolean {
+    if (this.inputEl?.value != '') return false;
+    this.setMsg('필수 정보입니다.');
     return true;
   }
 
-  setValid() {
-    if (this.msgEl == null) return;
-    this.msgEl.innerText = '사용 가능한 닉네임입니다.';
-    this.isValid = true;
+  checkRegExp(): boolean {
+    const nick: string = this.inputEl.value;
+    const regExp: RegExp = /^[a-z|A-Z|0-9|_\-|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{5,20}$/;
+    const isMatch = regExp.test(nick);
+
+    if (isMatch) return false;
+    this.setMsg('5~20자의 영문 대소문자, 숫자, 한글과 특수기호(_),(-)만 사용 가능합니다.');
+    return true;
   }
 
-  setInValid() {
-    if (this.msgEl == null) return;
-    this.msgEl.innerText = '이미 사용중인 닉네임입니다.';
-    this.isValid = false;
-  }
-
-  checkDuplicate() {
+  async checkDuplicate(): Promise<boolean> {
     const data: string = this.inputEl.value;
     const option: AjaxOption = {
       method: 'POST',
@@ -182,19 +181,17 @@ class NickObserver {
       },
     };
 
-    fetch(this.url, option)
-      .then(response => response.json())
-      .then(isInValid => {
-        isInValid ? this.setInValid() : this.setValid();
-      })
-      .then(() => {
-        if (this.msgEl instanceof HTMLElement) this.msgEl.style.display = 'block';
-      });
+    const response = await fetch(this.url, option);
+    const isDuplicate = await response.json();
+    isDuplicate ? this.setMsg('이미 사용중인 닉네임입니다.') : this.setMsg('사용 가능한 닉네임입니다.');
+    if (this.msgEl instanceof HTMLElement) this.msgEl.style.display = 'block';
+    return !isDuplicate;
   }
 
-  checkValid() {
-    if (this.checkRegExp()) return;
-    this.checkDuplicate();
+  async checkValid(): Promise<boolean> {
+    if (this.checkEmpty()) return false;
+    if (this.checkRegExp()) return false;
+    return this.checkDuplicate();
   }
 }
 
@@ -202,40 +199,36 @@ class EmailObserver {
   inputEl: HTMLInputElement; //pwRe input
   msgEl: HTMLElement | null;
   url: string;
-  isValid: boolean;
 
   constructor() {
     this.inputEl = <HTMLInputElement>document.getElementById('email');
     this.msgEl = document.getElementById('emailMsg');
     this.url = localUrl + '/register/email_check';
-    this.isValid = false;
     document.getElementById('email')?.addEventListener('change', this.checkValid.bind(this));
   }
 
-  checkRegExp() {
-    const email: string = this.inputEl.value;
-    const regExp: RegExp = /^[0-9|a-z|A-Z]([-_.]?[0-9|a-z|A-Z])*@[0-9|a-z|A-Z]([-_.]?[0-9|a-z|A-Z])*\.[a-z|A-Z]*$/i;
-
-    if (this.msgEl == null) return false;
-    if (regExp.test(email)) return false;
-    this.msgEl.innerText = '올바른 이메일을 입력해주세요.';
+  setMsg(msg: string): void {
+    if (this.msgEl == null) return;
+    this.msgEl.innerText = msg;
     this.msgEl.style.display = 'block';
+  }
+
+  checkEmpty(): boolean {
+    if (this.inputEl?.value != '') return false;
+    this.setMsg('필수 정보입니다.');
     return true;
   }
 
-  setValid() {
-    if (this.msgEl == null) return;
-    this.msgEl.innerText = '사용 가능한 이메일입니다.';
-    this.isValid = true;
+  checkRegExp(): boolean {
+    const email: string = this.inputEl.value;
+    const regExp: RegExp = /^[0-9|a-z|A-Z]([-_.]?[0-9|a-z|A-Z])*@[0-9|a-z|A-Z]([-_.]?[0-9|a-z|A-Z])*\.[a-z|A-Z]*$/i;
+    const isMatch = regExp.test(email);
+    if (isMatch) return false;
+    this.setMsg('올바른 이메일을 입력해주세요.');
+    return true;
   }
 
-  setInValid() {
-    if (this.msgEl == null) return;
-    this.msgEl.innerText = '이미 사용중이거나 탈퇴한 이메일입니다.';
-    this.isValid = false;
-  }
-
-  checkDuplicate() {
+  async checkDuplicate(): Promise<boolean> {
     const data: string = this.inputEl.value;
     const option: AjaxOption = {
       method: 'POST',
@@ -246,19 +239,16 @@ class EmailObserver {
       },
     };
 
-    fetch(this.url, option)
-      .then(response => response.json())
-      .then(isInValid => {
-        isInValid ? this.setInValid() : this.setValid();
-      })
-      .then(() => {
-        if (this.msgEl instanceof HTMLElement) this.msgEl.style.display = 'block';
-      });
+    const response = await fetch(this.url, option);
+    const isDuplicate = await response.json();
+    isDuplicate ? this.setMsg('이미 사용중이거나 탈퇴한 이메일입니다.') : this.setMsg('사용 가능한 이메일입니다.');
+    return !isDuplicate;
   }
 
-  checkValid() {
-    if (this.checkRegExp()) return;
-    this.checkDuplicate();
+  async checkValid(): Promise<boolean> {
+    if (this.checkEmpty()) return false;
+    if (this.checkRegExp()) return false;
+    return this.checkDuplicate();
   }
 }
 
@@ -299,29 +289,8 @@ class ReqCertObserver {
 
   constructor(emailObserver: EmailObserver, timerObserver: TimerObserver) {
     this.url = localUrl + '/register/request_cert';
-    document.getElementById('request_cert')?.addEventListener('change', this.requestCert.bind(this));
     this.emailObserver = emailObserver;
     this.timerObserver = timerObserver;
-  }
-
-  requestCert() {
-    this.emailObserver.checkValid();
-    if (!this.emailObserver.isValid) return;
-    const data: boolean = this.emailObserver.isValid;
-    const option: AjaxOption = {
-      method: 'POST',
-      body: JSON.stringify({ data }),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    };
-
-    fetch(this.url, option)
-      .then(response => response.json())
-      .then(response => {
-        response['valid'] ? this.timerObserver.start() : alert(response['emailMsg']);
-      });
   }
 }
 
@@ -343,19 +312,17 @@ class FormObserver {
     document.getElementById('submit')?.addEventListener('click', this.submitData.bind(this));
   }
 
-  checkValid() {
-    return (
-      this.idObserver.isValid &&
-      this.pwObserver.isValid &&
-      this.pwReObserver.isValid &&
-      this.nickObserver.isValid &&
-      this.emailObserver.isValid
-    );
+  async checkValid(): Promise<boolean> {
+    let isValid = await this.idObserver.checkValid();
+    isValid = this.pwObserver.checkValid() && isValid;
+    isValid = this.pwReObserver.checkValid() && isValid;
+    isValid = (await this.nickObserver.checkValid()) && isValid;
+    isValid = (await this.emailObserver.checkValid()) && isValid;
+    return isValid;
   }
 
-  submitData() {
-    alert(this.checkValid());
-    if (!this.checkValid()) return false;
+  async submitData() {
+    if (!await this.checkValid()) return false;
     const formData = new FormData(<HTMLFormElement>document.getElementById('register'));
     let data: any = {};
     for (let pair of formData.entries()) {
@@ -370,11 +337,9 @@ class FormObserver {
       },
     };
 
-    fetch(this.url, option)
-      .then(response => response.json())
-      .then(isValid => {
-        isValid ? (location.href = '/register/cert/') : alert('잘못된 요청입니다.');
-      });
+    const response = await fetch(this.url, option);
+    const isValid = await response.json();
+    isValid ? (location.href = '/register/cert/') : alert('잘못된 요청입니다.');
   }
 }
 

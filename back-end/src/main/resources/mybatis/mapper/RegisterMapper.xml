@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yongheon.backend.DAO.RegisterDAO">
+<mapper namespace="com.yongheon.backend.Web.DAO.RegisterDAO">
 	
 	<select id="isExistId" resultType="String">
 		select id from user where id = #{id}
@@ -16,19 +16,21 @@
 		select email from user where email = #{email}
 	</select>
 	
-	<insert id="regi">
+	<insert id="register">
 	 	INSERT INTO 
 	 	user(
 	 		id,
 	 		pw,
 	 		nick,
-	 		email
+	 		email,
+			auth
 	 	) 
 	 	VALUES(
 	 		#{id},
 	 		#{pw},
 	 		#{nick},
-	 		#{email}
+	 		#{email},
+			0
 	 	) 
 	</insert>
 </mapper>

@@ -1,4 +1,4 @@
-package com.yongheon.backend.DTO.Register;
+package com.yongheon.backend.Web.DTO.Register;
 
 import lombok.Data;
 
@@ -6,6 +6,6 @@ import lombok.Data;
 public class RegisterDTO {
     private String id;
     private String pw;
-    private String email;
     private String nick;
+    private String email;
 }

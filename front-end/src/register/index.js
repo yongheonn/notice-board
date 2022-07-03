@@ -46,12 +46,21 @@ class IdObserver {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    Authorization: '',
                 },
             };
-            const response = yield fetch(this.url, option);
-            const isDuplicate = yield response.json();
-            isDuplicate ? this.setMsg('이미 사용중이거나 탈퇴한 아이디입니다.') : this.setMsg('사용 가능한 아이디입니다.');
-            return !isDuplicate;
+            try {
+                const response = yield fetch(this.url, option);
+                const isDuplicate = yield response.json();
+                if (typeof isDuplicate !== 'boolean')
+                    throw new Error();
+                isDuplicate ? this.setMsg('이미 사용중이거나 탈퇴한 아이디입니다.') : this.setMsg('사용 가능한 아이디입니다.');
+                return !isDuplicate;
+            }
+            catch (e) {
+                this.setMsg('오류가 발생했습니다.');
+                return false;
+            }
         });
     }
     checkValid() {
@@ -172,14 +181,21 @@ class NickObserver {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    Authorization: '',
                 },
             };
-            const response = yield fetch(this.url, option);
-            const isDuplicate = yield response.json();
-            isDuplicate ? this.setMsg('이미 사용중인 닉네임입니다.') : this.setMsg('사용 가능한 닉네임입니다.');
-            if (this.msgEl instanceof HTMLElement)
-                this.msgEl.style.display = 'block';
-            return !isDuplicate;
+            try {
+                const response = yield fetch(this.url, option);
+                const isDuplicate = yield response.json();
+                if (typeof isDuplicate !== 'boolean')
+                    throw new Error();
+                isDuplicate ? this.setMsg('이미 사용중인 닉네임입니다.') : this.setMsg('사용 가능한 닉네임입니다.');
+                return !isDuplicate;
+            }
+            catch (e) {
+                this.setMsg('오류가 발생했습니다.');
+                return false;
+            }
         });
     }
     checkValid() {
@@ -231,12 +247,21 @@ class EmailObserver {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    Authorization: '',
                 },
             };
-            const response = yield fetch(this.url, option);
-            const isDuplicate = yield response.json();
-            isDuplicate ? this.setMsg('이미 사용중이거나 탈퇴한 이메일입니다.') : this.setMsg('사용 가능한 이메일입니다.');
-            return !isDuplicate;
+            try {
+                const response = yield fetch(this.url, option);
+                const isDuplicate = yield response.json();
+                if (typeof isDuplicate !== 'boolean')
+                    throw new Error();
+                isDuplicate ? this.setMsg('이미 사용중이거나 탈퇴한 이메일입니다.') : this.setMsg('사용 가능한 이메일입니다.');
+                return !isDuplicate;
+            }
+            catch (e) {
+                this.setMsg('오류가 발생했습니다.');
+                return false;
+            }
         });
     }
     checkValid() {
@@ -283,7 +308,7 @@ class ReqCertObserver {
 class FormObserver {
     constructor() {
         var _a;
-        this.url = localUrl + '/register/request_cert';
+        this.url = localUrl + '/register/';
         this.idObserver = new IdObserver();
         this.pwObserver = new PwObserver();
         this.pwReObserver = new PwReObserver();
@@ -316,11 +341,19 @@ class FormObserver {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    Authorization: '',
                 },
             };
-            const response = yield fetch(this.url, option);
-            const isValid = yield response.json();
-            isValid ? (location.href = '/register/cert/') : alert('잘못된 요청입니다.');
+            try {
+                const response = yield fetch(this.url, option);
+                const isValid = yield response.json();
+                if (typeof isValid !== 'boolean')
+                    throw new Error();
+                isValid ? (location.href = '/register/cert') : alert('잘못된 요청입니다.');
+            }
+            catch (e) {
+                alert('오류가 발생했습니다.');
+            }
         });
     }
 }

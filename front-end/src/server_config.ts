@@ -7,7 +7,10 @@ type AjaxOption = {
   headers: {
     Accept: string;
     'Content-Type': string;
+    Authorization: string;
   };
 };
+
+type Union<T> = T[keyof T];
 
 export { localUrl, defaultUrl, AjaxOption };

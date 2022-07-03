@@ -41,12 +41,19 @@ class IdObserver {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: '',
       },
     };
-    const response = await fetch(this.url, option);
-    const isDuplicate = await response.json();
-    isDuplicate ? this.setMsg('이미 사용중이거나 탈퇴한 아이디입니다.') : this.setMsg('사용 가능한 아이디입니다.');
-    return !isDuplicate;
+    try {
+      const response = await fetch(this.url, option);
+      const isDuplicate = await response.json();
+      if (typeof isDuplicate !== 'boolean') throw new Error();
+      isDuplicate ? this.setMsg('이미 사용중이거나 탈퇴한 아이디입니다.') : this.setMsg('사용 가능한 아이디입니다.');
+      return !isDuplicate;
+    } catch (e) {
+      this.setMsg('오류가 발생했습니다.');
+      return false;
+    }
   }
 
   async checkValid(): Promise<boolean> {
@@ -178,14 +185,20 @@ class NickObserver {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: '',
       },
     };
 
-    const response = await fetch(this.url, option);
-    const isDuplicate = await response.json();
-    isDuplicate ? this.setMsg('이미 사용중인 닉네임입니다.') : this.setMsg('사용 가능한 닉네임입니다.');
-    if (this.msgEl instanceof HTMLElement) this.msgEl.style.display = 'block';
-    return !isDuplicate;
+    try {
+      const response = await fetch(this.url, option);
+      const isDuplicate = await response.json();
+      if (typeof isDuplicate !== 'boolean') throw new Error();
+      isDuplicate ? this.setMsg('이미 사용중인 닉네임입니다.') : this.setMsg('사용 가능한 닉네임입니다.');
+      return !isDuplicate;
+    } catch (e) {
+      this.setMsg('오류가 발생했습니다.');
+      return false;
+    }
   }
 
   async checkValid(): Promise<boolean> {
@@ -236,13 +249,20 @@ class EmailObserver {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: '',
       },
     };
 
-    const response = await fetch(this.url, option);
-    const isDuplicate = await response.json();
-    isDuplicate ? this.setMsg('이미 사용중이거나 탈퇴한 이메일입니다.') : this.setMsg('사용 가능한 이메일입니다.');
-    return !isDuplicate;
+    try {
+      const response = await fetch(this.url, option);
+      const isDuplicate = await response.json();
+      if (typeof isDuplicate !== 'boolean') throw new Error();
+      isDuplicate ? this.setMsg('이미 사용중이거나 탈퇴한 이메일입니다.') : this.setMsg('사용 가능한 이메일입니다.');
+      return !isDuplicate;
+    } catch (e) {
+      this.setMsg('오류가 발생했습니다.');
+      return false;
+    }
   }
 
   async checkValid(): Promise<boolean> {
@@ -303,7 +323,7 @@ class FormObserver {
   emailObserver: EmailObserver;
 
   constructor() {
-    this.url = localUrl + '/register/request_cert';
+    this.url = localUrl + '/register/';
     this.idObserver = new IdObserver();
     this.pwObserver = new PwObserver();
     this.pwReObserver = new PwReObserver();
@@ -322,7 +342,7 @@ class FormObserver {
   }
 
   async submitData() {
-    if (!await this.checkValid()) return false;
+    if (!(await this.checkValid())) return false;
     const formData = new FormData(<HTMLFormElement>document.getElementById('register'));
     let data: any = {};
     for (let pair of formData.entries()) {
@@ -334,12 +354,18 @@ class FormObserver {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: '',
       },
     };
 
-    const response = await fetch(this.url, option);
-    const isValid = await response.json();
-    isValid ? (location.href = '/register/cert/') : alert('잘못된 요청입니다.');
+    try {
+      const response = await fetch(this.url, option);
+      const isValid = await response.json();
+      if (typeof isValid !== 'boolean') throw new Error();
+      isValid ? (location.href = '/register/cert') : alert('잘못된 요청입니다.');
+    } catch (e) {
+      alert('오류가 발생했습니다.');
+    }
   }
 }
 
